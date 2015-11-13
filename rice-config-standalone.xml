@@ -3,9 +3,9 @@
     
     <!-- 
           environment code
-          can be anything, except if this is a production system, it must be “prd”
+          can be anything, except if this is a production system, it must be “prd"
     -->
-    <param name=”environment>...tst...</param>
+    <param name="environment">...tst...</param>
 
     <!--
          application host, port, context name, and application code
@@ -18,26 +18,27 @@
          whatever it would be)
 
     -->
-    <param name=”application.host”>...rice.my.edu...</param>
-    <param name=”application.http.scheme”>https</param>
+    <param name="application.host">...rice.my.edu...</param>
+    <param name="http.port">8080</param>
+    <param name="application.http.scheme">https</param>
     <param name="app.context.name"></param>
-    <param name=”app.code”></param>
+    <param name="app.code"></param>
 
     <!--
          The serviceServletUrl need to be an accessible path to the Rice
-         “remoting” servlet that hosts api calls. This is used in conjunction
-         with some “topic” style messaging, so it needs to be a url directly
+         “remoting" servlet that hosts api calls. This is used in conjunction
+         with some “topic" style messaging, so it needs to be a url directly
          to the specific application instance (i.e. not going through any sort
-         of load balancer). This could just be the ip address and port,
-         the main rule being that it needs to be accessible from all rice
-         standalone servers in the cluster, as well as any KFS, KC, or
+         of load balancer). This could just be the ip address and port, if it's
+         routable. The main rule being that it needs to be accessible from all
+         rice standalone servers in the cluster, as well as any KFS, KC, or
          other applications that are integrated with the standalone Rice
          server.
     -->
-
+    <param name="serviceServletUrl">https://192.168.1.2:18888/remoting</param>
     
     <!-- logging -->
-    <param name=”log4j.settings.path”>.../path/to/log4j.properties…</param>
+    <param name="log4j.settings.path">.../path/to/log4j.properties...</param>
 
     <!--
         keystore, be sure to use a distinct keystore in test vs. prod, can be
@@ -64,9 +65,9 @@
     <!--           
            If using Oracle (for integration tests or a test environment):
 
-           <param name=”datasource.url”>jdbc:oracle:thin:@dbhost:1521:dbname</param>
+           <param name="datasource.url">jdbc:oracle:thin:@dbhost:1521:dbname</param>
            <param name="datasource.url">jdbc:mysql://localhost:3306/dbname</param>
-           <param name=”datasource.driver.name”>${datasource.driver.name.Oracle}</param>
+           <param name="datasource.driver.name">${datasource.driver.name.Oracle}</param>
            <param name="datasource.platform">${datasource.platform.Oracle}</param>
            <param name="datasource.ojb.platform">Oracle9i</param>
     -->
@@ -84,12 +85,12 @@
     <param name="xml.pipeline.lifecycle.enabled">false</param>
 
     <!-- KRAD/KNS Attachments Directory -->
-    <param name=”attachments.directory”>/path/to/framework/attachments</param>
+    <param name="attachments.directory">/path/to/framework/attachments</param>
 
     <!-- KEW Attachments Directory, must be different than KRAD/KNS above! -->
-    <param name=”attachment.dir.location”>/path/to/kew/attachments</param>
+    <param name="attachment.dir.location">/path/to/kew/attachments</param>
     
-    <!-- This installs the “dummy” login filter which is a login with no password,
+    <!-- This installs the “dummy" login filter which is a login with no password,
          a different filter would be needed for prd for CAS, etc. -->
     <param name="filter.login.class">org.kuali.rice.krad.web.filter.DummyLoginFilter</param>
     <param name="filtermapping.login.1">/*</param>
