@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    
+    <!-- 
+          environment code
+          can be anything, except if this is a production system, it must be “prd”
+    -->
+    <param name=”environment>...tst...</param>
+
+    <!--
+         application host, port, context name, and application code
+         
+         We leave the context name empty so we can run it from the root
+         context of the Tomcat container.
+         
+         Note that application.host needs to be the host/domain that end
+         users will access the application at (i.e. rice.my.edu or
+         whatever it would be)
+
+    -->
+    <param name=”application.host”>...rice.my.edu...</param>
+    <param name=”application.http.scheme”>https</param>
+    <param name="app.context.name"></param>
+    <param name=”app.code”></param>
+
+    <!--
+         The serviceServletUrl need to be an accessible path to the Rice
+         “remoting” servlet that hosts api calls. This is used in conjunction
+         with some “topic” style messaging, so it needs to be a url directly
+         to the specific application instance (i.e. not going through any sort
+         of load balancer). This could just be the ip address and port,
+         the main rule being that it needs to be accessible from all rice
+         standalone servers in the cluster, as well as any KFS, KC, or
+         other applications that are integrated with the standalone Rice
+         server.
+    -->
+
+    
+    <!-- logging -->
+    <param name=”log4j.settings.path”>.../path/to/log4j.properties…</param>
+
+    <!--
+        keystore, be sure to use a distinct keystore in test vs. prod, can be
+        generated with the java "keytool" utility
+    -->
+    <param name="keystore.file">.../path/to/rice.jks...</param>
+    <param name="keystore.alias">...alias...</param>
+    <param name="keystore.password">...password...</param>
+
+    <!--
+         MySQL Database Configuration 
+         connection pool settings may need to be tweaked depending on load
+    -->
+    <param name="datasource.url">jdbc:mysql://dbhost:3306/dbname</param>
+    <param name="datasource.username">...db username...</param>
+    <param name="datasource.password">...db password...</param>
+    <param name="datasource.driver.name">${datasource.driver.name.MySQL}</param>
+    <param name="datasource.pool.minSize">3</param>
+    <param name="datasource.pool.maxSize">50</param>
+    <param name="datasource.pool.maxOpenPreparedStatements">500</param>
+    <param name="datasource.platform">${datasource.platform.MySQL}</param>
+    <param name="datasource.ojb.platform">MySQL</param>
+
+    <!--           
+           If using Oracle (for integration tests or a test environment):
+
+           <param name=”datasource.url”>jdbc:oracle:thin:@dbhost:1521:dbname</param>
+           <param name="datasource.url">jdbc:mysql://localhost:3306/dbname</param>
+           <param name=”datasource.driver.name”>${datasource.driver.name.Oracle}</param>
+           <param name="datasource.platform">${datasource.platform.Oracle}</param>
+           <param name="datasource.ojb.platform">Oracle9i</param>
+    -->
+
+   <!-- email configuration -->
+   <param name="mail.transport.protocol">smtp</param> 
+   <param name="mail.smtp.auth">true</param>
+   <param name="mail.smtp.host">...mail.host...</param>
+   <param name="mail.smtp.username">...smtp.username...</param>
+   <param name="mail.smtp.password">..smtp.password...</param>
+   <param name="mail.smtp.port">465</param>
+   <param name="mail.smtp.ssl.enable">true</param>
+
+    <!-- turn off the XML ingestion pipeline -->
+    <param name="xml.pipeline.lifecycle.enabled">false</param>
+
+    <!-- KRAD/KNS Attachments Directory -->
+    <param name=”attachments.directory”>/path/to/framework/attachments</param>
+
+    <!-- KEW Attachments Directory, must be different than KRAD/KNS above! -->
+    <param name=”attachment.dir.location”>/path/to/kew/attachments</param>
+    
+    <!-- This installs the “dummy” login filter which is a login with no password,
+         a different filter would be needed for prd for CAS, etc. -->
+    <param name="filter.login.class">org.kuali.rice.krad.web.filter.DummyLoginFilter</param>
+    <param name="filtermapping.login.1">/*</param>
+
+</config>
