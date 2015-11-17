@@ -22,4 +22,6 @@ In the example above, we are using docker-machine so the --add-host allows for
 mapping the execution of the container against a mysql server running on
 localhost. Modify the environment variables above to match your mysql database
 administrative username/password as well as username, password, and database
-name you want to use for the generated integration test database.
+name you want to use for the generated integration test database. Also, the 
+`/rice` volume should point to a copy of the Rice source code containing the
+version of the database you want to load.
