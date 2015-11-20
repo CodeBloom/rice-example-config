@@ -6,6 +6,7 @@ ENV MYSQL_DRIVER_URL https://repo1.maven.org/maven2/mysql/mysql-connector-java/5
 ENV TOMCAT_INSTRUMENT_URL https://repo1.maven.org/maven2/org/springframework/spring-instrument-tomcat/4.2.2.RELEASE/spring-instrument-tomcat-4.2.2.RELEASE.jar
 
 COPY rice-standalone.war $CATALINA_HOME/webapps/ROOT.war
+COPY redis-store.jar $CATALINA_HOME/lib/redis-store.jar
 
 RUN rm -rf $CATALINA_HOME/webapps/ROOT \
     && mkdir $CATALINA_HOME/webapps/ROOT \
