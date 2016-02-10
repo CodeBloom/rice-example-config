@@ -22,13 +22,13 @@ To run Rice integration tests against MySQL
 3. From root of Kuali Rice source code, run the following command to bootstrap a new MySQL database for the integration tests (the MySQL server will need to be running and you will need to know the username and password of a MySQL account that has permissions to create and drop databases). Change the parameters to the command as needed for your particular database:
 ```
 mvn -f db/impex/master clean install \
-     -Pdb,mysql,integration-test \
-     -Dimpex.dba.url=jdbc:mysql://localhost \
-     -Dimpex.dba.username=root \
-     -Dimpex.dba.password=myrootpassword \
-     -Dimpex.username=riceit \
-     -Dimpex.password=riceit \
-     -Dimpex.database=riceit
+    -Pdb,mysql,integration-test \
+    -Dimpex.dba.url=jdbc:mysql://localhost \
+    -Dimpex.dba.username=root \
+    -Dimpex.dba.password=myrootpassword \
+    -Dimpex.username=riceit \
+    -Dimpex.password=riceit \
+    -Dimpex.database=riceit
 ``` 
 4. Once the database has been created successfully, execute the following to run the integration tests:
 ```
@@ -38,3 +38,93 @@ mvn verify -Pitests -Dbuild.alt.config.location=/path/to/integration-test-config
 6. Even if there are failed integration tests, the build will still produce a "Build Successful" result. The specific report files will be located in the following directory pattern that can be configured for Junit report files in Jenkins: `**/target/failsafe-reports/*.xml`
 7. If after running this on a local machine you would like to generate an HTML report of failures, you can run the following and the resulting report will be in `target/site/failsafe-report.html`:
 ```mvn surefire-report:failsafe-report-only -Daggregate=true```
+
+## Running Kuali Rice Standalone in Test (Clustered)
+
+To run multiple clustered Kuali Rice Standalone instances in Test you need to follow these steps:
+
+1. Create a Redis data store
+2. Create and populate a MySQL database
+3. Create an S3 Bucket
+4. Create a keystore
+5. Create a log4j configuration file
+6. Create a Rice configuration file
+7. Configure a Tomcat Server
+8. Deploy to Tomcat Server for each instance
+9. Run Tomcat Servers
+10. Hook up a Load Balancer
+
+### Create a Redis data store
+
+In order to run Kuali Rice in a cluster but still allow the backend to be stateless we need to configure session
+management in Tomcat using a shared data store. Specifically, we use Redis for this. The Tomcat configuration for this
+will be covered in a later step, but in preparation for running Kuali Rice in test, a Redis database must be
+provisioned.
+
+### Create and populate a MySQL database
+
+(Note that Rice also supports Oracle but we are using MySQL for this example)
+
+Kuali Rice stores most of it's data in a relational database. In order to create a Kuali Rice database, the following
+steps must be taken.
+
+1. Checkout a copy of the Rice source code for the version you are installing.
+3. Run the following command, replacing the various parameters with the desired username, password, etc. that you would
+like to use:
+```
+mvn -f db/impex/server/demo clean install \
+    -Pdb,mysql \
+    -Dimpex.dba.url=jdbc:mysql://localhost \
+    -Dimpex.dba.username=root \
+    -Dimpex.dba.password=myrootpassword \
+    -Dimpex.username=myusername \
+    -Dimpex.password=mypassword \
+    -Dimpex.database=mydatabase
+``` 
+4. If your root account has no password use `-Dimpex.dba.password=NONE`
+5. In the above example we are using the "demo" dataset for the Kuali Rice Standalone Server. If you
+would rather work with the bare minimum Kuali Rice database with no demo data, then use the
+`-f db/impex/server/bootstrap` option instead.
+
+### Create an S3 Bucket
+
+Kuali Rice will store attachments in Amazon S3. In order to configure this you will need read and write access to a
+bucket within Amazon S3. Create this bucket within Amazon and ensure that you have the credentials when we are ready to
+configure it later in the process.
+
+Note: By default Kuali Rice will store attachments on the file system, however in order for Rice to run well within a
+cloud-based architecture, S3 is the best option for this storage.
+
+### Create a Keystore
+
+Kuali Rice has numerous web service APIs and it's architecture includes frequent communication with other Kuali Rice
+client applications using these APIs. The security mechanism used to authorize these communications leverages
+public/private key pairs and digital signatures. These credentials are stored within a Java keystore
+(https://en.wikipedia.org/wiki/Keystore).
+
+To create a keystore file, follow these steps (you will need to have the `keytool` binary on your path, which is a
+standard component of the JDK installation):
+
+1. Execute the following to create your keystore file and initial key:
+```
+keytool -genkey -alias rice -keyalg RSA -keystore rice.jks -dname "cn=rice" -keypass <your key pw> -storepass <your store pw>
+```
+2. Be sure to enter a password of your choosing for your key and your keystore. This will create a file named `rice.jks`
+in your current directory.
+3. Next self sign the key by executing the following:
+```
+keytool -selfcert -alias rice -keystore rice.jks -keypass <your key pw> -storepass <your store pw>
+```
+4. If you don't want to self sign the key, you can have it signed by a certificate authority if you choose.
+
+If you are going to be integrating Rice with another Kuali application (such as KFS) then you will need to use the 
+`exportcert` option of keytool and export a certificate to import and trust into KFS's keystore and vice versa. This
+establishes the trust relationship between the two applications.
+
+Once you have the keystore created, be sure to keep it in a safe place, we will need it later.
+
+### Create a log4j configuration file
+
+TODO
+
+
