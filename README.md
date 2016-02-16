@@ -41,7 +41,7 @@ mvn verify -Pitests -Dbuild.alt.config.location=/path/to/integration-test-config
 
 ## Running Kuali Rice Standalone Server (Clustered)
 
-To run multiple clustered Kuali Rice Standalone instances in Test you need to follow these steps:
+To run multiple clustered Kuali Rice Standalone instances you need to follow these steps:
 
 1. Create a Redis data store
 2. Create and populate a MySQL database
@@ -169,7 +169,7 @@ When running the Tomcat servers a few system parameters need to be passed to the
 
 ### Hook up a Load Balancer
 
-If running more than one instance of the Kuali Rice Standalone Server, a load balancer will need to be set up to
+When running more than one instance of the Kuali Rice Standalone Server, a load balancer will need to be set up to
 distribute load to the various instances. Because Tomcat has been setup to manage session information inside of Redis,
 there is no need to implement session affinity at the load balancer layer.
 
