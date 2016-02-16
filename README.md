@@ -136,9 +136,9 @@ Kuali Rice is configured via an XML file, an example file that is annotated with
 
 Tomcat 8 should be used to run the Kuali Rice standalone server. It needs to be configured as follows:
 
-1. Download the MySQL JDBC driver from (http://search.maven.org/remotecontent?filepath=mysql/mysql-connector-java/5.1.38/mysql-connector-java-5.1.38.jar)
+1. Download the MySQL JDBC driver from http://search.maven.org/remotecontent?filepath=mysql/mysql-connector-java/5.1.38/mysql-connector-java-5.1.38.jar
 and copy it into the `lib` directory of Tomcat.
-2. Checkout the (https://github.com/KualiCo/session-managers) project and run a `mvn package`
+2. Checkout the https://github.com/KualiCo/session-managers project and run a `mvn package`
 3. Copy the resulting file in `redis-store/target/redis-store-x.x.x.BUILD-SNAPSHOT.jar` to the Tomcat `lib` directory
 
 ### Deploy Kuali Rice Standalone to Tomcat Server
@@ -147,7 +147,7 @@ Download the Kuali Rice Standalone WAR into a file named `ROOT.war`. The Kuali R
 a Maven repository under group ID `org.kuali.rice`, artifact ID `rice-standalone`, and at the required version number.
 
 In order to configure Redis for session management the WAR file will need to be unzipped and patched. Patch the
-`META-INF` directory within the unzipped WAR to replace the `context.xml` file contained within with (context.xml). Be
+`META-INF` directory within the unzipped WAR to replace the `context.xml` file contained within with [/context.xml](/context.xml). Be
 sure to enter the credentials and connection information for Redis into this file.
  
 Once this file has been patched, re-zip the WAR file and deploy the patched `ROOT.war` to the `webapps` directory within
