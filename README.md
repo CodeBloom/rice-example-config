@@ -100,7 +100,7 @@ cloud-based architecture, S3 is the best option for this storage.
 Kuali Rice has numerous web service APIs and it's architecture includes frequent communication with other Kuali Rice
 client applications using these APIs. The security mechanism used to authorize these communications leverages
 public/private key pairs and digital signatures. These credentials are stored within a Java keystore
-[](https://en.wikipedia.org/wiki/Keystore).
+https://en.wikipedia.org/wiki/Keystore
 
 To create a keystore file, follow these steps (you will need to have the `keytool` binary on your path, which is a
 standard component of the JDK installation):
@@ -125,7 +125,7 @@ Once you have the keystore created, be sure to keep it in a safe place, we will 
 
 ### Create a log4j configuration file
 
-Create a log4j configuration file. There is an example at (dockerfiles/standalone/log4j.properties)
+Create a log4j configuration file. There is an example at [/dockerfiles/standalone/log4j.properties](/dockerfiles/standalone/log4j.properties)
 
 ### Create a Rice configuration file
 
