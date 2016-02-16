@@ -1,0 +1,59 @@
+<config>
+
+    <!-- set app.context.name to an empty string so we can run the application from the root context -->
+    <param name="app.context.name"></param>
+
+    <!-- the URL of the Rice standalone server, change this value to the domain + port of the server -->
+    <param name="application.url">https://example.com/</param>
+
+    <!--
+        The base URL that remote services are published under in the service registry.
+
+        This uses an "instance.url" system parameter which must be passed to the JVM. This should be a URL that can be
+        used for http or https access to the individual instance (i.e. this should not be a load balanced url)
+    -->
+    <param name="serviceServletUrl">${instance.url}/remoting/</param>
+
+    <!-- Database Configuration, change these values to match your database -->
+    <param name="datasource.username">...</param>
+    <param name="datasource.password">...</param>
+    <param name="datasource.ojb.platform">MySQL</param>
+    <param name="datasource.platform">org.kuali.rice.core.framework.persistence.platform.MySQLDatabasePlatform</param>
+    <param name="datasource.url">jdbc:mysql://example.com:3306/${datasource.username}</param>
+    <param name="datasource.driver.name">com.mysql.jdbc.Driver</param>
+    <param name="datasource.pool.validationQuery">select 1</param>
+
+    <!-- log4j settings, change path to log4j file -->
+    <param name="log4j.settings.path">/path/to/log4j.properties</param>
+    <param name="log4j.settings.reloadInterval">5</param>
+
+    <!-- Keystore Configuration, change path, alias, and password to match your keystore -->
+    <param name="keystore.file">/path/to/rice.keystore</param>
+    <param name="keystore.alias">...</param>
+    <param name="keystore.password">...</param>
+
+    <!-- SMTP configuration for sending emails -->
+    <param name="mail.transport.protocol">...optional, defaults to "stmp"...</param>
+    <param name="mail.smtp.host">...</param>
+    <param name="mail.smtp.port">...</param>
+    <param name="mail.smtp.username">...</param>
+    <param name="mail.smtp.password">...</param>
+
+    <!-- KualiCo Core Authentication Filter -->
+    <param name="filter.login.class">co.kuali.core.auth.web.CoreAuthenticationFilter</param>
+    <param name="filter.login.authBaseUrl">https://...</param>
+    <param name="filter.login.secondsToCacheAuthTokenResponse">300</param>
+    <param name="filtermapping.login.1">/*</param>
+
+    <!--
+         AWS Credentials
+         Change values for your S3 bucket, also ensure that folder name for kew and krad are unique within the bucket
+    -->
+    <param name="cloud.aws.credentials.accessKey">...</param>
+    <param name="cloud.aws.credentials.secretKey">...</param>
+    <param name="rice.kew.attachments.s3.bucketName">...</param>
+    <param name="rice.kew.attachments.s3.folderName">...</param>
+    <param name="rice.krad.attachments.s3.bucketName">...</param>
+    <param name="rice.krad.attachments.s3.folderName">...</param>
+
+</config>

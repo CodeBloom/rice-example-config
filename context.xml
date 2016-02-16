@@ -1,6 +1,5 @@
 <!-- Sample Tomcat context.xml which configures Tomcat's session manager to persist to Redis -->
 <Context>
-  <Loader loaderClass="org.springframework.instrument.classloading.tomcat.TomcatInstrumentableClassLoader"/>
   <Valve className="com.gopivotal.manager.SessionFlushValve" />
   <Manager className="org.apache.catalina.session.PersistentManager">
     <!-- See https://github.com/CodeBloom/session-managers#configuration for more options -->

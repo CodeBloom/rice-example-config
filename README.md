@@ -50,7 +50,7 @@ To run multiple clustered Kuali Rice Standalone instances in Test you need to fo
 5. Create a log4j configuration file
 6. Create a Rice configuration file
 7. Configure a Tomcat Server
-8. Deploy to Tomcat Server for each instance
+8. Deploy Kuali Rice Standalone to Tomcat Server
 9. Run Tomcat Servers
 10. Hook up a Load Balancer
 
@@ -125,6 +125,52 @@ Once you have the keystore created, be sure to keep it in a safe place, we will 
 
 ### Create a log4j configuration file
 
-TODO
+Create a log4j configuration file. There is an example at (dockerfiles/standalone/log4j.properties)
+
+### Create a Rice configuration file
+
+Kuali Rice is configured via an XML file, an example file that is annotated with comments can be found at
+(dockerfiles/standalone/rice-config.xml).
+
+### Configure a Tomcat Server
+
+Tomcat 8 should be used to run the Kuali Rice standalone server. It needs to be configured as follows:
+
+1. Download the MySQL JDBC driver from (http://search.maven.org/remotecontent?filepath=mysql/mysql-connector-java/5.1.38/mysql-connector-java-5.1.38.jar)
+and copy it into the `lib` directory of Tomcat.
+2. Checkout the (https://github.com/KualiCo/session-managers) project and run a `mvn package`
+3. Copy the resulting file in `redis-store/target/redis-store-x.x.x.BUILD-SNAPSHOT.jar` to the Tomcat `lib` directory
+
+### Deploy Kuali Rice Standalone to Tomcat Server
+
+Download the Kuali Rice Standalone WAR into a file named `ROOT.war`. The Kuali Rice Standalone WAR can be retrieved from
+a Maven repository under group ID `org.kuali.rice`, artifact ID `rice-standalone`, and at the required version number.
+
+In order to configure Redis for session management the WAR file will need to be unzipped and patched. Patch the
+`META-INF` directory within the unzipped WAR to replace the `context.xml` file contained within with (context.xml). Be
+sure to enter the credentials and connection information for Redis into this file.
+ 
+Once this file has been patched, re-zip the WAR file and deploy the patched `ROOT.war` to the `webapps` directory within
+Apache Tomcat.
+
+### Run Tomcat Servers
+
+When running the Tomcat servers a few system parameters need to be passed to the JVM (using the Java `-D` option):
+
+* `-Denvironment=prd`
+  * if an environment other than production, use a different environment code
+  * the "prd" code is special in that it affects certain features like disabling the ability to perform backdoor logins
+    and enabling the sending of emails to real users
+* `-Dadditional.config.locations=/path/to/rice-config.xml`
+  * ensure this points to the rice-config.xml file you set up in a previous step
+* `-Dinstance.url=https://x.x.x.x:yyyy`
+  * instance URL should be different for each individual instance as it will be used by the KSB to route messages to
+    individual instances of the Kuali Rice applications within a cluster
+
+### Hook up a Load Balancer
+
+If running more than one instance of the Kuali Rice Standalone Server, a load balancer will need to be set up to
+distribute load to the various instances. Because Tomcat has been setup to manage session information inside of Redis,
+there is no need to implement session affinity at the load balancer layer.
 
 
