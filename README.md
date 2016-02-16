@@ -130,7 +130,7 @@ Create a log4j configuration file. There is an example at [/dockerfiles/standalo
 ### Create a Rice configuration file
 
 Kuali Rice is configured via an XML file, an example file that is annotated with comments can be found at
-(dockerfiles/standalone/rice-config.xml).
+[/dockerfiles/standalone/rice-config.xml](/dockerfiles/standalone/rice-config.xml).
 
 ### Configure a Tomcat Server
 
