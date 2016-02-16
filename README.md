@@ -39,7 +39,7 @@ mvn verify -Pitests -Dbuild.alt.config.location=/path/to/integration-test-config
 7. If after running this on a local machine you would like to generate an HTML report of failures, you can run the following and the resulting report will be in `target/site/failsafe-report.html`:
 ```mvn surefire-report:failsafe-report-only -Daggregate=true```
 
-## Running Kuali Rice Standalone in Test (Clustered)
+## Running Kuali Rice Standalone Server (Clustered)
 
 To run multiple clustered Kuali Rice Standalone instances in Test you need to follow these steps:
 
