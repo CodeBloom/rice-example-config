@@ -161,6 +161,8 @@ When running the Tomcat servers a few system parameters need to be passed to the
   * if an environment other than production, use a different environment code
   * the "prd" code is special in that it affects certain features like disabling the ability to perform backdoor logins
     and enabling the sending of emails to real users
+* `-Dspring.profiles.active=s3`
+  * This enables the use of S3 for attachements in KEW and KNS/KRAD
 * `-Dadditional.config.locations=/path/to/rice-config.xml`
   * ensure this points to the rice-config.xml file you set up in a previous step
 * `-Dinstance.url=https://x.x.x.x:yyyy`
