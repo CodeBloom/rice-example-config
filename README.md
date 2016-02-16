@@ -58,8 +58,8 @@ To run multiple clustered Kuali Rice Standalone instances you need to follow the
 
 In order to run Kuali Rice in a cluster but still allow the backend to be stateless we need to configure session
 management in Tomcat using a shared data store. Specifically, we use Redis for this. The Tomcat configuration for this
-will be covered in a later step, but in preparation for running Kuali Rice in test, a Redis database must be
-provisioned.
+will be covered in a later step, but in preparation for running the Kuali Rice Standalone Server with a stateless backend,
+a Redis database must be provisioned.
 
 ### Create and populate a MySQL database
 
